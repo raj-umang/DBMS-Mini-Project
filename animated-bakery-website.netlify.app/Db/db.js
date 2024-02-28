@@ -1,11 +1,22 @@
-import pkg from "pg";
+const { Client } = require("pg");
 
-const pool = new pkg.Pool({
+const client = new Client({
   host: "localhost",
-  user: "postgres",
-  password: "<PASSWORD>",
+  user: "umang",
+  password: "root@1234",
   port: 5432,
-  database: "animated_bakery",
+  database: "bakery",
 });
 
-export default pool;
+client.connect();
+
+client.query(`Select * from users`, (err, res) => {
+  if (!err) {
+    console.log(res.rows);
+  } else {
+    console.log(err.message);
+  }
+  client.end;
+});
+
+// export default pool;
