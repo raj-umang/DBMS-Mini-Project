@@ -1,4 +1,4 @@
-<%- include('layout/header')  %>
+<%- include('layout/header') %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,13 +57,9 @@
                           />
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <a href="" class="btn mt-4"
-                          >Login</a
-                        >
+                        <a href="" class="btn mt-4">Login</a>
                         <p class="mb-0 mt-4 text-center">
-                          <a href="" class="link"
-                            >Forgot your password?</a
-                          >
+                          <a href="" class="link">Forgot your password?</a>
                         </p>
                       </div>
                     </div>
@@ -104,9 +100,9 @@
                           />
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <form onclick="register" action="/add" href="" class="btn mt-4"
-                          >Register</form
-                        >
+                        <button onclick="register()" class="btn mt-4">
+                          Register
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -117,7 +113,27 @@
         </div>
       </div>
     </div>
+    <script>
+      function register() {
+        fetch("/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: "Umang raj" }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Success:", data);
+            // Handle success response
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            // Handle error response
+          });
+      }
+    </script>
   </body>
 </html>
 
-<%- include('layout/footer')  %>
+<%- include('layout/footer') %>

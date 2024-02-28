@@ -19,10 +19,11 @@ const multer = require("multer"); //for imageupload
 
 router.post("/register", async (req, res) => {
   const { name, email, phone, password } = req.body;
+  console.log(" name: ", req.body);
 
   try {
     // Check if the user already exists
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ user });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
@@ -69,8 +70,10 @@ router.get("/", (req, res) => {
 router.get("/login", (req, res) => {
   res.render("login.ejs");
 });
+
 router.get("/cart", (req, res) => {
-  res.render("cart.ejs");
+  // Assuming `yourProductsArray` is the array of products you want to pass to the view
+  res.render("cart.ejs", { products: yourProductsArray });
 });
 
 module.exports = router;

@@ -18,40 +18,20 @@
           <span class="text-primary">Your cart</span>
           <span class="badge bg-primary rounded-pill">3</span>
         </h4>
-        <ul class="list-group mb-3">
+<!-- Existing cart items list -->
+<ul class="list-group mb-3">
+  <% if (products && products.length > 0) { %>
+      <% products.forEach(product => { %>
           <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">Product name</h6>
-              <small class="text-body-secondary">Brief description</small>
-            </div>
-            <span class="text-body-secondary">$12</span>
+              <!-- Your existing code for rendering each product -->
           </li>
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">Second product</h6>
-              <small class="text-body-secondary">Brief description</small>
-            </div>
-            <span class="text-body-secondary">$8</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">Third item</h6>
-              <small class="text-body-secondary">Brief description</small>
-            </div>
-            <span class="text-body-secondary">$5</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-            <div class="text-success">
-              <h6 class="my-0">Promo code</h6>
-              <small>EXAMPLECODE</small>
-            </div>f
-            <span class="text-success">−$5</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Total (USD)</span>
-            <strong>$20</strong>
-          </li>
-        </ul>
+      <% }); %>
+  <% } else { %>
+      <li class="list-group-item">No products in the cart</li>
+  <% } %>
+</ul>
+
+
 
         <form class="card p-2">
           <div class="input-group">

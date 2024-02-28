@@ -146,3 +146,97 @@ sr.reveal(`.favorite__card img`, {
 sr.reveal(`.footer__container`, {
   scale: 1,
 });
+
+function increaseQuantityPopup(popupId) {
+  let quantityPopupElement = document.querySelector(
+    `#${popupId} .quantity-popup`
+  );
+  let currentQuantity = parseInt(quantityPopupElement.textContent);
+  quantityPopupElement.textContent = currentQuantity + 1;
+}
+
+function decreaseQuantityPopup(popupId) {
+  let quantityPopupElement = document.querySelector(
+    `#${popupId} .quantity-popup`
+  );
+  let currentQuantity = parseInt(quantityPopupElement.textContent);
+  if (currentQuantity > 1) {
+    quantityPopupElement.textContent = currentQuantity - 1;
+  }
+}
+
+function showPopup(popupId) {
+  var popup = document.getElementById(popupId);
+  popup.style.display = "flex";
+}
+
+function addToCartFromPopup(productName, quantity, popupId) {
+  // Implement your addToCart functionality here
+  console.log("Adding to cart from popup: " + quantity + " " + productName);
+  console.log("Popup ID: " + popupId);
+  // You can perform actions like updating the cart state, making API calls, etc.
+}
+
+// Close the popup when clicking outside of it
+window.onclick = function (event) {
+  if (event.target.classList.contains("popup")) {
+    event.target.style.display = "none";
+  }
+};
+
+// let quantityElement = document.querySelector('.quantity');
+// let quantityPopupElement = document.querySelector('.quantity-popup');
+
+//     function increaseQuantity() {
+//         let currentQuantity = parseInt(quantityElement.textContent);
+//         quantityElement.textContent = currentQuantity + 1;
+//     }
+
+//     function decreaseQuantity() {
+//         let currentQuantity = parseInt(quantityElement.textContent);
+//         if (currentQuantity > 1) {
+//             quantityElement.textContent = currentQuantity - 1;
+//         }
+//     }
+
+//     function increaseQuantityPopup() {
+//       let currentQuantity = parseInt(quantityPopupElement.textContent);
+//       quantityPopupElement.textContent = currentQuantity + 1;
+//   }
+
+//   function decreaseQuantityPopup() {
+//       let currentQuantity = parseInt(quantityPopupElement.textContent);
+//       if (currentQuantity > 1) {
+//           quantityPopupElement.textContent = currentQuantity - 1;
+//       }
+//   }
+
+// function showPopup(popupId) {
+//   var popup = document.getElementById(popupId);
+//   popup.style.display = "flex";
+// }
+
+// function addToCartFromPopup(productName, quantity) {
+//   // Implement your addToCart functionality here
+//   console.log("Adding to cart from popup: " + quantity + " " + productName);
+//   // You can perform actions like updating the cart state, making API calls, etc.
+// }
+
+// // Close the popup when clicking outside of it
+// window.onclick = function(event) {
+//   if (event.target.classList.contains("popup")) {
+//     event.target.style.display = "none";
+//   }
+// };
+
+// function addToCart(productName, quantity) {
+//   // Implement your addToCart functionality here
+//   console.log("Adding to cart: " + quantity + " " + productName);
+
+// }
+
+// function addToCartFromFavorite(productName, quantity) {
+//   // Implement your addToCart functionality here
+//   console.log("Adding to cart from favorite: " + quantity + " " + productName);
+//   // You can perform actions like updating the cart state, making API calls, etc.
+// }
