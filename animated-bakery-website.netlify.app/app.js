@@ -33,27 +33,6 @@ app.use(express.static(path.join(__dirname, "assets")));
 //routes prefix
 app.use("", require("./routes/routes"));
 
-// // Login route
-// app.post("/login", async (req, res) => {
-//   const { email, password } = req.body;
-//   if (email === "sourav@gmail.com" && password === "sourav") {
-//     res.render("admin.ejs");
-//   } else {
-//     try {
-//       const user = await User.findOne({ email, password });
-//       if (user) {
-//         req.session.user = user; // Create a session
-//         res.json({ message: "Login successful" });
-//       } else {
-//         res.status(401).json({ message: "Invalid email or password" });
-//       }
-//     } catch (error) {
-//       console.error("Error:", error);
-//       res.status(500).json({ message: "Server error" });
-//     }
-//   }
-// });
-
 // Registration route
 app.post("/register", async (req, res) => {
   const { name, phoneno, email, password } = req.body;

@@ -59,19 +59,6 @@ router.get("/login/home", (req, res) => {
   res.render("home.ejs");
 });
 
-// router.get("/login", (req, res) => {
-//   const { email, password } = req.query;
-//   console.log("Email:", email);
-//   console.log("Password:", password);
-//   if (email === "sourav@gmail.com" && password === "sourav") {
-//     console.log("Rendering admin.ejs");
-//     res.render("admin.ejs");
-//   } else {
-//     console.log("Rendering home.ejs");
-//     res.render("home.ejs");
-//   }
-// });
-
 router.get("/cart", (req, res) => {
   res.render("cart.ejs");
 });
