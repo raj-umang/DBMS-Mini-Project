@@ -2,15 +2,15 @@ const { Client } = require("pg");
 
 const client = new Client({
   host: "localhost",
-  user: "umang",
-  password: "root@1234",
+  user: "postgres",
+  password: "root@123",
   port: 5432,
   database: "bakery",
 });
 
 client.connect();
 
-client.query(`Select * from users`, (err, res) => {
+client.query(`Select * from item`, (err, res) => {
   if (!err) {
     console.log(res.rows);
   } else {
@@ -19,4 +19,4 @@ client.query(`Select * from users`, (err, res) => {
   client.end;
 });
 
-// export default pool;
+export default Client;

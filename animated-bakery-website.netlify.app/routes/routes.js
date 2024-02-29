@@ -38,27 +38,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-//Insert an user into database route
-// router.post('/add', (req, res) => {
-//     const user = new User({
-//         name: req.body.name,
-//         email: req.body.email,
-//         phone: req.body.phone,
-//         password: req.body.password
-//     });
-//     user.save((err) => {
-//         if(err){
-//             res.json({message: err.message, type: 'danger'});
-//         }else {
-//             req.session.message = {
-//                 type:'success',
-//                 message: 'User added successfully'
-//             };
-//             res.redirect('/');
-//         }
-//     })
-// })
-
 router.get("/users", (req, res) => {
   res.send("All users");
 });
@@ -69,6 +48,23 @@ router.get("/", (req, res) => {
 });
 router.get("/login", (req, res) => {
   res.render("login.ejs");
+});
+
+router.get("/admin", (req, res) => {
+  res.render("admin.ejs");
+});
+
+router.get("/login/home", (req, res) => {
+  const { email, password } = req.query;
+  console.log("Email:", email);
+  console.log("Password:", password);
+  if (email === "sourav@gmail.com" && password === "sourav") {
+    console.log("Rendering admin.ejs");
+    res.render("admin.ejs");
+  } else {
+    console.log("Rendering home.ejs");
+    res.render("home.ejs");
+  }
 });
 
 router.get("/cart", (req, res) => {

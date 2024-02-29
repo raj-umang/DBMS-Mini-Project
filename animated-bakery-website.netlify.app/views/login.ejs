@@ -4,6 +4,7 @@
 <html lang="en">
   <head>
     <title>Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -57,7 +58,7 @@
                           />
                           <i class="input-icon uil uil-lock-alt"></i>
                         </div>
-                        <a href="" class="btn mt-4">Login</a>
+                        <a href="/login/home" class="btn mt-4">Login</a>
                         <p class="mb-0 mt-4 text-center">
                           <a href="" class="link">Forgot your password?</a>
                         </p>
@@ -114,6 +115,25 @@
       </div>
     </div>
     <script>
+      // const emailInput = document.getElementById("email");
+
+      // // Event listener to update the model when the input changes
+      // emailInput.addEventListener("input", function () {
+      //   // Update the model (JavaScript variable)
+      //   email = this.value;
+      // });
+      // const passInput = document.getElementById("password");
+
+      // // Event listener to update the model when the input changes
+      // passInput.addEventListener("input", function () {
+      //   // Update the model (JavaScript variable)
+      //   pass = this.value;
+      // });
+
+      // // if (email == "sourav@gmail.com" && pass == "sourav") {
+      // //   window.location.href = "/admin";
+      // // }
+
       function register() {
         fetch("/register", {
           method: "POST",
