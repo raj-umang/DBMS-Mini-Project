@@ -1,77 +1,172 @@
-/* Set rates + misc */
-var taxRate = 0.05;
-var shippingRate = 15.00; 
-var fadeTime = 300;
+let listProductHTML = document.querySelector(".listProduct");
+let listCartHTML = document.querySelector(".listCart");
+let iconCart = document.querySelector(".icon-cart");
+let iconCartSpan = document.querySelector(".icon-cart span");
+let body = document.querySelector("body");
+let closeCart = document.querySelector(".close");
+let products = [];
+let cart = [];
 
-
-/* Assign actions */
-$('.product-quantity input').change( function() {
-  updateQuantity(this);
+iconCart.addEventListener("click", () => {
+  body.classList.toggle("showCart");
+});
+closeCart.addEventListener("click", () => {
+  body.classList.toggle("showCart");
 });
 
-$('.product-removal button').click( function() {
-  removeItem(this);
-});
+const addDataToHTML = () => {
+  // remove datas default from HTML
 
-
-/* Recalculate cart */
-function recalculateCart()
-{
-  var subtotal = 0;
-  
-  /* Sum up row totals */
-  $('.product').each(function () {
-    subtotal += parseFloat($(this).children('.product-line-price').text());
-  });
-  
-  /* Calculate totals */
-  var tax = subtotal * taxRate;
-  var shipping = (subtotal > 0 ? shippingRate : 0);
-  var total = subtotal + tax + shipping;
-  
-  /* Update totals display */
-  $('.totals-value').fadeOut(fadeTime, function() {
-    $('#cart-subtotal').html(subtotal.toFixed(2));
-    $('#cart-tax').html(tax.toFixed(2));
-    $('#cart-shipping').html(shipping.toFixed(2));
-    $('#cart-total').html(total.toFixed(2));
-    if(total == 0){
-      $('.checkout').fadeOut(fadeTime);
-    }else{
-      $('.checkout').fadeIn(fadeTime);
-    }
-    $('.totals-value').fadeIn(fadeTime);
-  });
-}
-
-
-/* Update quantity */
-function updateQuantity(quantityInput)
-{
-  /* Calculate line price */
-  var productRow = $(quantityInput).parent().parent();
-  var price = parseFloat(productRow.children('.product-price').text());
-  var quantity = $(quantityInput).val();
-  var linePrice = price * quantity;
-  
-  /* Update line price display and recalc cart totals */
-  productRow.children('.product-line-price').each(function () {
-    $(this).fadeOut(fadeTime, function() {
-      $(this).text(linePrice.toFixed(2));
-      recalculateCart();
-      $(this).fadeIn(fadeTime);
+  // add new datas
+  if (products.length > 0) {
+    // if has data
+    products.forEach((product) => {
+      let newProduct = document.createElement("div");
+      newProduct.dataset.id = product.id;
+      newProduct.classList.add("item");
+      newProduct.innerHTML = `<img src="${product.image}" alt="">
+                <h2>${product.name}</h2>
+                <div class="price">$${product.price}</div>
+                <button class="addCart">Add To Cart</button>`;
+      listProductHTML.appendChild(newProduct);
     });
-  });  
-}
+  }
+};
+listProductHTML.addEventListener("click", (event) => {
+  let positionClick = event.target;
+  if (positionClick.classList.contains("addCart")) {
+    let id_product = positionClick.parentElement.dataset.id;
+    addToCart(id_product);
+  }
+});
 
+const addToCart = (product_id) => {
+  // Check if cart is not an array or is empty
+  if (!Array.isArray(cart) || cart.length === 0) {
+    cart = [
+      {
+        product_id: product_id,
+        quantity: 1,
+      },
+    ];
+  } else {
+    // Find the index of the product in the cart
+    let positionThisProductInCart = cart.findIndex(
+      (value) => value.product_id == product_id
+    );
 
-/* Remove item from cart */
-function removeItem(removeButton)
-{
-  /* Remove row from DOM and recalc cart total */
-  var productRow = $(removeButton).parent().parent();
-  productRow.slideUp(fadeTime, function() {
-    productRow.remove();
-    recalculateCart();
-  });
+    if (positionThisProductInCart === -1) {
+      // If not found, add a new entry to the cart
+      cart.push({
+        product_id: product_id,
+        quantity: 1,
+      });
+    } else {
+      // If found, increase the quantity
+      cart[positionThisProductInCart].quantity += 1;
+    }
+  }
+
+  // Update HTML and memory
+  addCartToHTML();
+  addCartToMemory();
+};
+const addCartToMemory = () => {
+  localStorage.setItem("cart", JSON.stringify(cart));
+};
+const addCartToHTML = () => {
+  console.log(JSON.parse(localStorage.getItem("cart")));
+  listCartHTML.innerHTML = "";
+  let totalQuantity = 0;
+  if (cart.length > 0) {
+    cart.forEach((item) => {
+      totalQuantity = totalQuantity + item.quantity;
+      let newItem = document.createElement("div");
+      newItem.classList.add("item");
+      newItem.dataset.id = item.product_id;
+
+      let positionProduct = products.findIndex(
+        (value) => value.id == item.product_id
+      );
+      let info = products[positionProduct];
+      listCartHTML.appendChild(newItem);
+      newItem.innerHTML = `
+            <div class="image">
+                    <img src="${info.image}">
+                </div>
+                <div class="name">
+                ${info.name}
+                </div>
+                <div class="totalPrice">$${info.price * item.quantity}</div>
+                <div class="quantity">
+                    <span class="minus"><</span>
+                    <span>${item.quantity}</span>
+                    <span class="plus">></span>
+                </div>
+            `;
+    });
+  }
+  iconCartSpan.innerText = totalQuantity;
+};
+
+listCartHTML.addEventListener("click", (event) => {
+  let positionClick = event.target;
+  if (
+    positionClick.classList.contains("minus") ||
+    positionClick.classList.contains("plus")
+  ) {
+    let product_id = positionClick.parentElement.parentElement.dataset.id;
+    let type = "minus";
+    if (positionClick.classList.contains("plus")) {
+      type = "plus";
+    }
+    changeQuantityCart(product_id, type);
+  }
+});
+const changeQuantityCart = (product_id, type) => {
+  let positionItemInCart = cart.findIndex(
+    (value) => value.product_id == product_id
+  );
+  if (positionItemInCart >= 0) {
+    let info = cart[positionItemInCart];
+    switch (type) {
+      case "plus":
+        cart[positionItemInCart].quantity =
+          cart[positionItemInCart].quantity + 1;
+        break;
+
+      default:
+        let changeQuantity = cart[positionItemInCart].quantity - 1;
+        if (changeQuantity > 0) {
+          cart[positionItemInCart].quantity = changeQuantity;
+        } else {
+          cart.splice(positionItemInCart, 1);
+        }
+        break;
+    }
+  }
+  addCartToHTML();
+  addCartToMemory();
+};
+
+const initApp = () => {
+  // get data product
+  fetch("products.json")
+    .then((response) => response.json())
+    .then((data) => {
+      products = data;
+      addDataToHTML();
+
+      // get data cart from memory
+      if (localStorage.getItem("cart")) {
+        cart = JSON.parse(localStorage.getItem("cart"));
+        addCartToHTML();
+      }
+    });
+};
+initApp();
+
+function checkout() {
+  // Show an alert when the button is clicked
+  alert("Check Out Successful!");
 }

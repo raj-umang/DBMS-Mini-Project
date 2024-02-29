@@ -73,8 +73,7 @@ router.get("/login/home", (req, res) => {
 // });
 
 router.get("/cart", (req, res) => {
-  // Assuming `yourProductsArray` is the array of products you want to pass to the view
-  res.render("cart.ejs", { products: yourProductsArray });
+  res.render("cart.ejs");
 });
 
 module.exports = router;
